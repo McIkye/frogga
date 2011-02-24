@@ -15,5 +15,8 @@ see home page for pictures and more ramblings...
 
 check each source file for appropriate license and distribution
 information that is mostly isc-style
+
+for the bsd.avr.mk used in Makefile see
+	https://github.com/McIkye/mk
 --
     paranoic mickey       (my employers have changed but, the name has remained)
