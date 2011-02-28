@@ -2,6 +2,7 @@
 AVRMCU=m328p
 MCU=atmega328p
 FREQ=16000000
+AVRPROG=usbtiny
 
 PROG=	frogga
 SRCS=	frogga.c gui.c navi.c
