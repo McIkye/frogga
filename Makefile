@@ -1,5 +1,4 @@
 
-AVRMCU=m328p
 MCU=atmega328p
 FREQ=16000000
 AVRPROG=usbtiny
@@ -11,8 +10,7 @@ SRCS+=	ks0108.c i2c.c spi.c uart.c	# zigbee vs1053 sdcard
 #	keep PROGMEM data as low as possible
 SRCS+=	dosfs.c
 
-CPPFLAGS+= -D__AVR_ATmega328P__ -I${.CURDIR} -I. -DDEBUG
-CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CPPFLAGS+=-I${.CURDIR} -I. -DDEBUG
 LDFLAGS	= -Wl,-Map=$(PROG).map,--cref
 #LDADD += -Wl,-u,vfscanf -lscanf_min
 CLEANFILES+=font.h ${PROG}.map
