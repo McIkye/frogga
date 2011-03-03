@@ -18,6 +18,6 @@ CLEANFILES+=font.h ${PROG}.map
 ${.CURDIR}/ks0108.c: font.h
 
 font.h: font.src
-	${SHELL} ${.CURDIR}/font.src > font.h
+	${SHELL} $? > $@
 
 .include "../bsd.avr.mk"
