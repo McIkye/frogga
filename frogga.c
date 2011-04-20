@@ -125,6 +125,7 @@ short adc[NADC], oadc[NADC];
 
 /* target */
 int tlon, tlat;
+// 48.127556 11.597711
 
 void streset(void);
 
@@ -227,10 +228,10 @@ main(void)
 	/* program uart */
 #define	BRR	(F_CPU / 16 / 9600 - 1)
 	PRR &= ~_BV(PRUSART0);
+	UCSR0B = _BV(RXEN0) | _BV(RXCIE0);
 	UBRR0H = BRR >> 8;
 	UBRR0L = BRR;				/* 9600 */
-	UCSR0C = _BV(USBS0) | _BV(UCSZ00);	/* 8n1 */
-	UCSR0B |= _BV(RXEN0) | _BV(RXCIE0);
+	UCSR0C = _BV(UCSZ01) | _BV(UCSZ00);	/* 8n1 */
 
 	/* config gps */
 /* TODO
@@ -271,11 +272,14 @@ ks_puthexb(48, 0, UDR0, 0);
 	DDRD &= ~(_BV(DDD2) | _BV(DDD4) | _BV(DDD5) | _BV(DDD7));
 	DDRD |= _BV(DDD3) | _BV(DDD6);
 
+	PORTB = 0;
+	DDRB |= _BV(DDB1) | _BV(DDB2) | _BV(DDB5);
+
 	/* set tmr0 for pwm on lcd backlight */
 	PRR &= ~_BV(PRTIM0);
-	OCR0A = 1;				/* fastPWM mode */
+	OCR0A = 0x40;				/* fastPWM mode */
 	TCCR0A = _BV(COM0A1) | _BV(WGM01) | _BV(WGM00);
-	TCCR0B = _BV(CS22) | _BV(CS21);		/* / 256 */
+	TCCR0B = _BV(CS02);			/* / 256 */
 	TIMSK0 = 0;				/* no interrupts */
 
 	/* set tmr2 to interrupt each 8ms */
