@@ -23,6 +23,7 @@
 #include <avr/pgmspace.h>
 
 #include "gui.h"
+#include "navi.h"
 #include "ds1307.h"
 
 int pos2ffnum(char *, char **);
@@ -37,13 +38,11 @@ extern const char hexd[] PROGMEM;
  */
 ISR(USART_RX_vect)	/* vector 18 */
 {
-	extern int longit, latit, speed, course;
 	static char tt[10], dd[10], bbb[10], *bp, cksum;
 	static int nlongit, nlatit, nspeed, ncourse;
 	int *var;
 	char c, *buf = &bbb[1];
 
-PORTB ^= _BV(PORTB5);
 	if (!(UCSR0A & _BV(RXC0)))
 		return;
 
@@ -83,6 +82,7 @@ PORTB ^= _BV(PORTB5);
 			goto next;
 		goto fail;
 	case 3:		/* UTC time */
+	PORTB ^= _BV(PORTB5);
 		if (bp - buf < 10)
 			goto fail;
 		/* only copy now; if data is valid update times */
@@ -180,12 +180,13 @@ PORTB ^= _BV(PORTB5);
 		times.mm10 = dd[2] - '0';
 		times.year = dd[5] - '0';
 		times.yy10 = dd[4] - '0';
+		PORTB &= ~_BV(PORTB5);
 		/* FALLTHROUGH */
 	default:
 		if (0) {
 	fail:
 			/* DEBUG FAIL */
-			PORTB ^= _BV(PORTB5);
+			PORTB &= ~_BV(PORTB5);
 		}
 		state++;
 		gpst = -1;

@@ -46,10 +46,10 @@
 #define	MODWPT	2	/* select waypoints */
 #define	MODMUS	3	/* select music track */
 
+extern short changed;
 extern struct ds1307_times times;
 extern char rpm, hbeat, pecad, power, mode;
 extern signed char state, gpst, i2cst, spist, jbst;
-extern short changed;
 
 void ks_lcd(char);
 void ks_clear(void);
